@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{1f049f42-0aad-44f7-86df-9f0a2eef6534}</ProjectGuid>
-    <RootNamespace>DRSRadaSimulator</RootNamespace>
+    <ProjectGuid>{b4be03fe-3871-4560-b0ce-04f402fb2b1d}</ProjectGuid>
+    <RootNamespace>TCPClientCApi</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -40,7 +40,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -127,18 +127,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TCPClientCApi\TCPClientCApi.vcxproj">
-      <Project>{b4be03fe-3871-4560-b0ce-04f402fb2b1d}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\TCPServer\TCPServer.vcxproj">
-      <Project>{689891b1-dc79-423c-8671-f74027210ecb}</Project>
-    </ProjectReference>
+    <ClCompile Include="tcpclient.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="drsradamessage.h" />
+    <ClInclude Include="tcpclient.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

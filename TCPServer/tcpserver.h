@@ -9,9 +9,8 @@
 #include <ws2tcpip.h>
 
 void HandleData(char* data, int dataLength, SOCKET clientSocket);
-int  InitializeTCPServer();
-void CloseTCPServer();
-
+int  TCPServer_Initialize(int port);
+void TCPServer_Close();
 
 
 #endif 

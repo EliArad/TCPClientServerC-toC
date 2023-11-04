@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static TCPClient;
@@ -32,6 +33,7 @@ namespace TCPClientServerC_Api
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            m_running = false;
             m_tcpServer?.Close();
             m_client?.Dispose();
         }
@@ -44,22 +46,37 @@ namespace TCPClientServerC_Api
                 MessageBox.Show("Failed to create server on port 7002");
                 return;
             }
+            LogMessage("Server created and start lisetning");
 
-            btnConnect.ForeColor = Color.Black;
-            if (m_client.Connect() == false)
-            {
-                btnConnect.ForeColor = Color.Red;
-                MessageBox.Show("Failed to connnect");
-                return;
-            }
-            btnConnect.ForeColor = Color.Green;
+            var t = new Thread(ClientConnectThread);
+            t.Start();
 
         }
-
-        public void NotifyData(byte[] data, int size)
+        void LogMessage(string msg)
         {
-
+            INVOKERS.InvokeControlAppendText2(txtServerMessages, msg);
         }
+
+        bool m_running = true;
+        void ClientConnectThread()
+        {
+            LogMessage("Attempting to connect to server at port 7003");
+            while (m_running)
+            {
+                
+                INVOKERS.InvokeControlForeColor(btnConnect, Color.Black);
+                if (m_client.Connect() == false)
+                {
+                    INVOKERS.InvokeControlForeColor(btnConnect, Color.Red);
+                    Thread.Sleep(300);
+                    continue;
+                }
+                INVOKERS.InvokeControlForeColor(btnConnect, Color.Green);
+                LogMessage("Client connnected to server ok!");
+                break;
+            }
+        }
+         
 
         TRACK_VERSION1 m_trackVersion1 = new TRACK_VERSION1();
         private void btnSendTrackVersion1_Click(object sender, EventArgs e)
@@ -84,6 +101,9 @@ namespace TCPClientServerC_Api
                 MessageBox.Show("Position Z is not set");
                 return;
             }
+
+            m_trackVersion1.header.messageCounter = 50000;
+            m_trackVersion1.header.messageOpcode = 7;
             m_trackVersion1.positionX = posX;
             m_trackVersion1.positionY = posY;
             m_trackVersion1.positionZ = posZ;
@@ -94,6 +114,7 @@ namespace TCPClientServerC_Api
 
         private void btnDiconnect_Click(object sender, EventArgs e)
         {
+            m_running = false;
             m_client.Dispose();
             m_client = null;
             m_tcpServer?.Close();
@@ -102,22 +123,33 @@ namespace TCPClientServerC_Api
 
         public void NotifyClientConnected(Socket ep)
         {
-            INVOKERS.InvokeControlAppendText(txtServerMessages, "Client Connected");
+            INVOKERS.InvokeControlAppendText2(txtServerMessages, "Client Connected");
         }
 
         public void NotifyClientClose(Socket ep)
         {
-            INVOKERS.InvokeControlAppendText(txtServerMessages, "Client Closed");
+            INVOKERS.InvokeControlAppendText2(txtServerMessages, "Client Closed");
         }
 
         public void NotifyServerClose()
         {
-            INVOKERS.InvokeControlAppendText(txtServerMessages, "Server closed");
+            INVOKERS.InvokeControlAppendText2(txtServerMessages, "Server closed");
         }
 
-        public void NotifyReceive(byte[] data, int sizeRecv)
+        public void NotifyTCPServerReceive(byte[] data, int sizeRecv)
         {
-      
+            DRSRadaHeader h = Utils.StructFromByteArray<DRSRadaHeader>(data);
+            if (h.messageOpcode == 1)
+            {
+                MODE_REQUEST mr = Utils.StructFromByteArray<MODE_REQUEST>(data);
+                INVOKERS.InvokeControlAppendText2(txtServerMessages, "Got Mode request");
+                INVOKERS.InvokeControlAppendText2(txtServerMessages, "Mode request:" + mr.mode);
+            }
+        }
+
+        public void NotifyTCPClientData(byte[] data, int size)
+        {
+            throw new NotImplementedException();
         }
     }
 }

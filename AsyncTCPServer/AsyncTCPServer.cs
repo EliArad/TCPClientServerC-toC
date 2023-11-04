@@ -13,7 +13,7 @@ namespace AsyncTCPServerLib
         void NotifyClientConnected(Socket ep);
         void NotifyClientClose(Socket ep);
         void NotifyServerClose();
-        void NotifyReceive(byte [] data, int sizeRecv);
+        void NotifyTCPServerReceive(byte [] data, int sizeRecv);
     }
     public class AsyncTCPServer
     {
@@ -152,7 +152,7 @@ namespace AsyncTCPServerLib
                     client.Close();
                     return;
                 }
-                pIAsyncTCPServer.NotifyReceive(data, sizeRecv);
+                pIAsyncTCPServer.NotifyTCPServerReceive(data, sizeRecv);
 
                 client.BeginReceive(data, 0, MAX_SIZE, SocketFlags.None,
                      new AsyncCallback(ReceiveData), client);

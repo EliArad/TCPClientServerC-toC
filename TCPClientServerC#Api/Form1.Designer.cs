@@ -137,24 +137,24 @@
             // 
             // txtServerMessages
             // 
-            this.txtServerMessages.Location = new System.Drawing.Point(43, 476);
+            this.txtServerMessages.Location = new System.Drawing.Point(43, 179);
             this.txtServerMessages.Multiline = true;
             this.txtServerMessages.Name = "txtServerMessages";
-            this.txtServerMessages.Size = new System.Drawing.Size(366, 207);
+            this.txtServerMessages.Size = new System.Drawing.Size(366, 504);
             this.txtServerMessages.TabIndex = 5;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1278, 764);
+            this.ClientSize = new System.Drawing.Size(1278, 793);
             this.Controls.Add(this.txtServerMessages);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnSendTrackVersion1);
             this.Controls.Add(this.btnDiconnect);
             this.Controls.Add(this.btnConnect);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "TCP Client Server Host Simulator";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

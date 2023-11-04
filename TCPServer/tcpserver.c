@@ -1,9 +1,7 @@
 #include "tcpserver.h"
 
-#define PORT 7003
-
 static WSADATA wsaData;
-static SOCKET serverSocket;
+static SOCKET serverSocket = INVALID_HANDLE_VALUE;
 static struct sockaddr_in serverAddr;
 static SOCKET clientSocket = NULL;
 
@@ -28,7 +26,7 @@ static void ReceiveDataThread(void* clientSocket)
      
 }
 
-int Send(uint8_t* buffer, uint32_t size)
+int TCPServer_Send(uint8_t* buffer, uint32_t size)
 {
     int res = send(clientSocket, buffer, size, 0);
     return res;
@@ -59,55 +57,55 @@ static void AcceptConnectionsThread(void* serverSocket)
         // Create a thread for data reception
         _beginthread(ReceiveDataThread, 0, &clientSocket);
     }
-}
+} 
 
-
-
-int InitializeTCPServer()
+int TCPServer_Initialize(int port)
 {
     // Initialize Winsock
     if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
         printf("WSAStartup failed.\n");
-        return 1;
+        return 0;
     }
 
     // Create the socket
     if ((serverSocket = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
         printf("Socket creation failed.\n");
-        return 1;
+        return 0;
     }
 
     // Setup server address
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_addr.s_addr = INADDR_ANY;
-    serverAddr.sin_port = htons(PORT);
+    serverAddr.sin_port = htons(port);
 
     // Bind the socket
     if (bind(serverSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR) {
         printf("Socket bind failed.\n");
         closesocket(serverSocket);
-        return 1;
+        return 0;
     }
 
     // Listen for incoming connections
     if (listen(serverSocket, 5) == SOCKET_ERROR) {
         printf("Socket listen failed.\n");
         closesocket(serverSocket);
-        return 1;
+        return 0;
     }
 
-    printf("Server listening on port %d...\n", PORT);
+    printf("Server listening on port %d...\n", port);
 
     // Create a thread for accepting connections
     _beginthread(AcceptConnectionsThread, 0, &serverSocket);
 
-    // Keep the main thread running
-    while (1) {
-        Sleep(1000);
-    }
+
+    return 1;
 }
-void CloseTCPServer()
+void TCPServer_Close()
 {
-    closesocket(serverSocket);
+    if (serverSocket != INVALID_HANDLE_VALUE)
+    {
+        closesocket(serverSocket);
+        serverSocket = INVALID_HANDLE_VALUE;
+    }
     WSACleanup();
 }

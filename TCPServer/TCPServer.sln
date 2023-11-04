@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TCPServer", "TCPServer.vcxp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DRSRadaSimulator", "..\DRSRadaSimulator\DRSRadaSimulator.vcxproj", "{1F049F42-0AAD-44F7-86DF-9F0A2EEF6534}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TCPClientCApi", "..\TCPClientCApi\TCPClientCApi.vcxproj", "{B4BE03FE-3871-4560-B0CE-04F402FB2B1D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{1F049F42-0AAD-44F7-86DF-9F0A2EEF6534}.Release|x64.Build.0 = Release|x64
 		{1F049F42-0AAD-44F7-86DF-9F0A2EEF6534}.Release|x86.ActiveCfg = Release|Win32
 		{1F049F42-0AAD-44F7-86DF-9F0A2EEF6534}.Release|x86.Build.0 = Release|Win32
+		{B4BE03FE-3871-4560-B0CE-04F402FB2B1D}.Debug|x64.ActiveCfg = Debug|x64
+		{B4BE03FE-3871-4560-B0CE-04F402FB2B1D}.Debug|x64.Build.0 = Debug|x64
+		{B4BE03FE-3871-4560-B0CE-04F402FB2B1D}.Debug|x86.ActiveCfg = Debug|Win32
+		{B4BE03FE-3871-4560-B0CE-04F402FB2B1D}.Debug|x86.Build.0 = Debug|Win32
+		{B4BE03FE-3871-4560-B0CE-04F402FB2B1D}.Release|x64.ActiveCfg = Release|x64
+		{B4BE03FE-3871-4560-B0CE-04F402FB2B1D}.Release|x64.Build.0 = Release|x64
+		{B4BE03FE-3871-4560-B0CE-04F402FB2B1D}.Release|x86.ActiveCfg = Release|Win32
+		{B4BE03FE-3871-4560-B0CE-04F402FB2B1D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

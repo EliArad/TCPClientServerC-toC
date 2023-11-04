@@ -14,7 +14,7 @@ public class TCPClient : IDisposable
 
     public interface ITCPClient
     {
-        void NotifyData(byte[] data, int size);
+        void NotifyTCPClientData(byte[] data, int size);
     }
 
     string m_serverIp;
@@ -73,7 +73,7 @@ public class TCPClient : IDisposable
                 {
                     string response = Encoding.ASCII.GetString(data, 0, bytesRead);
                     Console.WriteLine("Received: " + response);
-                    piTCPClient.NotifyData(data, bytesRead);
+                    piTCPClient.NotifyTCPClientData(data, bytesRead);
                 }
             }
         }
